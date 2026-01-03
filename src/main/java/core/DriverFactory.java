@@ -21,15 +21,8 @@ public class DriverFactory {
                 options.addArguments("--disable-dev-shm-usage");
                 options.addArguments("--window-size=1920,1080");
             }
-
-            if (headless.equalsIgnoreCase("true")) {
-                options.addArguments("--headless=new");
-                options.addArguments("--no-sandbox");
-                options.addArguments("--disable-dev-shm-usage");
-                options.addArguments("--window-size=1920,1080");
-            }
             WebDriverManager.chromedriver().setup();
-            driver = new ChromeDriver();
+            driver = new ChromeDriver(options);
             driver.manage().window().maximize();
         }
         return driver;
