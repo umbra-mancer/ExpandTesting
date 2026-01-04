@@ -6,10 +6,10 @@ import io.cucumber.java.Before;
 
 public class Hooks {
 
-    @Before
-    public void setupDriver(){
-        DriverFactory.getDriver();
-    }
+//    @Before
+//    public void setupDriver(){
+//        DriverFactory.getDriver();
+//    }
 
     @After
     public void tearDown(){
