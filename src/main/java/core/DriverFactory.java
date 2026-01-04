@@ -4,29 +4,39 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.remote.RemoteWebDriver;
+import java.net.URL;
 
 public class DriverFactory {
 
     private static WebDriver driver;
 
-
     public static WebDriver getDriver(){
         if(driver == null){
-            ChromeOptions options = new ChromeOptions();
-            String headless = System.getProperty("headless", "false");
+            try {
+                String runMode = System.getProperty("runMode", "local");
 
-            if (headless.equalsIgnoreCase("true")) {
-                options.addArguments("--headless=new");
-                options.addArguments("--no-sandbox");
-                options.addArguments("--disable-dev-shm-usage");
+                ChromeOptions options = new ChromeOptions();
                 options.addArguments("--window-size=1920,1080");
-                options.addArguments("--disable-gpu");
-                options.addArguments("--force-device-scale-factor=1");
 
+                if (runMode.equalsIgnoreCase("docker")) {
+                    options.addArguments("--headless=new");
+                    options.addArguments("--no-sandbox");
+                    options.addArguments("--disable-dev-shm-usage");
+
+                    driver = new RemoteWebDriver(
+                            new URL("http://localhost:4444/wd/hub"),
+                            options
+                    );
+                } else {
+                    WebDriverManager.chromedriver().setup();
+                    driver = new ChromeDriver(options);
+                    driver.manage().window().maximize();
+                }
+
+            } catch (Exception e) {
+                throw new RuntimeException(e);
             }
-            WebDriverManager.chromedriver().setup();
-            driver = new ChromeDriver(options);
-            driver.manage().window().maximize();
         }
         return driver;
     }
