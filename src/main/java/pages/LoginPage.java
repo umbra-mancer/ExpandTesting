@@ -35,11 +35,10 @@ public class LoginPage extends BasePage {
         driver.findElement(password).sendKeys(pass);
     }
     public void clickLogin(){
-        ((JavascriptExecutor) driver).executeScript(
-                "arguments[0].scrollIntoView({block: 'center'});",
-                loginButton
-        );
+//        ((JavascriptExecutor) driver).executeScript(
+//                "arguments[0].scrollIntoView({block: 'center'});",
+//                loginButton
+//        );
         clickWhenReady(loginButton);
-//        driver.findElement(loginButton).click();
     }
 }

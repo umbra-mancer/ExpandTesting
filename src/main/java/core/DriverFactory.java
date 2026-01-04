@@ -20,6 +20,9 @@ public class DriverFactory {
                 options.addArguments("--no-sandbox");
                 options.addArguments("--disable-dev-shm-usage");
                 options.addArguments("--window-size=1920,1080");
+                options.addArguments("--disable-gpu");
+                options.addArguments("--force-device-scale-factor=1");
+
             }
             WebDriverManager.chromedriver().setup();
             driver = new ChromeDriver(options);

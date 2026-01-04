@@ -1,5 +1,6 @@
 package core;
 
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -18,6 +19,18 @@ public class BasePage {
     }
 
     protected void clickWhenReady(WebElement element) {
-        wait.until(ExpectedConditions.elementToBeClickable(element)).click();
+        wait.until(ExpectedConditions.visibilityOf(element));
+        ((JavascriptExecutor) driver).executeScript(
+                "arguments[0].scrollIntoView({block: 'center'});",
+                element
+        );
+        try {
+            wait.until(ExpectedConditions.elementToBeClickable(element)).click();
+        } catch (Exception e) {
+            ((JavascriptExecutor) driver).executeScript(
+                    "arguments[0].click();",
+                    element
+            );
+        }
     }
 }
